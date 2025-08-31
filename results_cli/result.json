@@ -1,0 +1,60 @@
+{
+  "mm_per_px": 0.01,
+  "min_line_width_px": 1.909999966621399,
+  "min_spacing_px": 1.909999966621399,
+  "min_radius_px": 5.223404121574739,
+  "min_line_width_mm": 0.01909999966621399,
+  "min_spacing_mm": 0.01909999966621399,
+  "min_radius_mm": 0.052234041215747394,
+  "pass": false,
+  "checks": [
+    {
+      "rule": "min_line_width_mm",
+      "measured": 0.01909999966621399,
+      "required": 0.15,
+      "ok": false
+    },
+    {
+      "rule": "min_spacing_mm",
+      "measured": 0.01909999966621399,
+      "required": 0.15,
+      "ok": false
+    },
+    {
+      "rule": "min_radius_mm",
+      "measured": 0.052234041215747394,
+      "required": 0.3,
+      "ok": false
+    },
+    {
+      "rule": "no_via_in_flex",
+      "ok": true,
+      "note": "not_implemented"
+    }
+  ],
+  "violations": [
+    {
+      "rule": "min_line_width_mm",
+      "measured": 0.01909999966621399,
+      "required": 0.15
+    },
+    {
+      "rule": "min_spacing_mm",
+      "measured": 0.01909999966621399,
+      "required": 0.15
+    },
+    {
+      "rule": "min_radius_mm",
+      "measured": 0.052234041215747394,
+      "required": 0.3
+    }
+  ],
+  "required": {
+    "min_line_width_mm": 0.15,
+    "min_spacing_mm": 0.15,
+    "min_radius_mm": 0.3
+  },
+  "binary_path": "results_cli\\binary.jpg",
+  "overlay_path": "results_cli\\overlay.jpg",
+  "report_path": "results_cli\\report.pdf"
+}

@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>PCB Inspector</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 800px; margin: 40px auto; }
+    fieldset { border: 1px solid #ccc; padding: 16px; }
+    label { display:block; margin: 6px 0 2px; }
+    input[type=number]{ width: 120px; }
+    .row { display:flex; gap:16px; align-items:center; }
+    .out { white-space: pre; background:#111; color:#0f0; padding:10px; overflow:auto; }
+  </style>
+</head>
+<body>
+  <h1>PCB/FPCB DRC Inspector</h1>
+  <form id="form">
+    <fieldset>
+      <div class="row">
+        <label>이미지</label>
+        <input type="file" name="file" required />
+      </div>
+      <div class="row">
+        <label>manual_mm_per_px</label> <input type="number" step="0.000001" name="manual_mm_per_px" placeholder="예: 0.01"/>
+        <label>req_w_mm</label> <input type="number" step="0.001" name="req_w_mm" placeholder="예: 0.15"/>
+        <label>req_gap_mm</label> <input type="number" step="0.001" name="req_gap_mm" placeholder="예: 0.15"/>
+        <label>req_rmin_mm</label> <input type="number" step="0.001" name="req_rmin_mm" placeholder="예: 0.30"/>
+        <label>PDF</label> <input type="checkbox" name="make_report" value="1"/>
+      </div>
+      <button type="submit">분석 실행</button>
+    </fieldset>
+  </form>
+
+  <h3>결과</h3>
+  <div class="out" id="out"></div>
+  <div id="imgs"></div>
+
+  <script>
+    const form = document.getElementById('form');
+    const out = document.getElementById('out');
+    const imgs = document.getElementById('imgs');
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      if(!fd.get('make_report')) fd.set('make_report','0');
+      const r = await fetch('/analyze', { method:'POST', body: fd});
+      const j = await r.json();
+      out.textContent = JSON.stringify(j,null,2);
+      imgs.innerHTML='';
+      if(j.overlay_path){ imgs.innerHTML += `<p><img src="${j.overlay_path}" style="max-width:100%"/></p>`}
+      if(j.binary_path){ imgs.innerHTML += `<p><img src="${j.binary_path}" style="max-width:100%"/></p>`}
+      if(j.report_path){ imgs.innerHTML += `<p><a href="${j.report_path}" download>PDF 리포트 다운로드</a></p>`}
+    }
+  </script>
+</body>
+</html>
